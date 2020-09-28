@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+@import "foundation";
+@import "settings";
+
+.epub-search-form {
+	.filter {
+		display: inline-block;
+		vertical-align: top;
+		margin-right: 1rem;
+
+		label {
+			display: block;
+		}
+
+		select {
+			width: auto;
+			height: 4.4rem;
+			padding: 8px;
+		}
+	}
+
+	.epub-search-form input[type="submit"]{
+		vertical-align: top;
+		margin-top: 29.25px;
+		padding: {
+			top: 12.8px;
+			bottom: 12.8px;
+		}
+	}
+}
