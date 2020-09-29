@@ -122,7 +122,7 @@ class PageTemplate {
 	 * @since 1.0.0
 	 * @return string
 	 */
-	public static function get_path() {
+	public function get_path() {
 
 		return $this->path;
 
@@ -134,7 +134,7 @@ class PageTemplate {
 	 * @since 1.0.0
 	 * @return string
 	 */
-	public static function get_file() {
+	public function get_file() {
 
 		return $this->file;
 
@@ -148,7 +148,7 @@ class PageTemplate {
 	 * @throws \Exception File name must exist.
 	 * @return string
 	 */
-	public static function with_file( $file ) {
+	public function with_file( $file ) {
 
 		$full_path = $this->path . '/' . $file . '.php';
 
@@ -170,7 +170,7 @@ class PageTemplate {
 	 * @since 1.0.0
 	 * @return string
 	 */
-	public static function get_name() {
+	public function get_name() {
 
 		return $this->name;
 
@@ -182,7 +182,7 @@ class PageTemplate {
 	 * @since 1.0.0
 	 * @return array
 	 */
-	public static function register() {
+	public function register() {
 
 		if ( version_compare( floatval( $GLOBALS['wp_version'] ), '4.7', '<' ) ) {
 			$filters['dropdown'] = add_filter( 'page_attributes_dropdown_pages_args', array( $this, 'add_to_cache' ) );
@@ -192,7 +192,7 @@ class PageTemplate {
 
 		$filters['admin_init']       = add_filter( 'admin_init', array( $this, 'add_to_cache' ) );
 		$filters['post_data']        = add_filter( 'wp_insert_post_data', array( $this, 'add_to_cache' ) );
-		$filters['template_include'] = add_filter( 'template_include', array( $this, 'template_include' ) );
+		$filters['template_include'] = add_filter( 'template_include', array( $this, 'view_project_template' ) );
 
 		return $filters;
 
@@ -205,7 +205,7 @@ class PageTemplate {
 	 * @param array $templates List of page templates.
 	 * @return array
 	 */
-	public static function add_to_cache_templates( $templates ) {
+	public function add_to_cache_templates( $templates ) {
 
 		$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
@@ -232,7 +232,7 @@ class PageTemplate {
 	 * @param array $atts Cache attributes.
 	 * @return array
 	 */
-	public static function add_to_cache( $atts ) {
+	public function add_to_cache( $atts ) {
 
 		$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
@@ -262,7 +262,7 @@ class PageTemplate {
 	 * @param string $template Template.
 	 * @return string
 	 */
-	public static function template_include( $template ) {
+	public function view_project_template( $template ) {
 
 		// Get global post.
 		global $post;

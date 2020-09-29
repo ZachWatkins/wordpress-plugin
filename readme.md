@@ -12,7 +12,9 @@ You may repurpose code from this repository for your own WordPress development s
 
 ## Features
 
-* "Publication" and "Author" custom post types using the most features I've developed for custom post types.
+* Shortcode
+* Widget
+* Custom post types using Advanced Custom Fields and various features and enhancements I've developed for custom post types and taxonomies
 
 ## Development Installation
 

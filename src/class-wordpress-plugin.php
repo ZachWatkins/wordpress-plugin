@@ -34,13 +34,6 @@ class WordPress_Plugin {
 	private static $instance;
 
 	/**
-	 * Post type.
-	 *
-	 * @var publication_post_type
-	 */
-	private $publication_post_type;
-
-	/**
 	 * Initialize the class
 	 *
 	 * @since 1.0.0
@@ -48,17 +41,37 @@ class WordPress_Plugin {
 	 */
 	public function __construct() {
 
-		// Require classes.
-		// $this->require_classes();
+		// Public asset files.
+		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-assets.php';
+		new \WordPress_Plugin\Assets();
 
-		// Load Publications post type.
+		// Register post types.
 		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-publication-post-type.php';
-		$this->publication_post_type = new \WordPress_Plugin\Publication_Post_Type();
+		new \WordPress_Plugin\Publication_Post_Type();
+
+		// Register templates.
+		$this->register_templates();
+
+		// Init hook.
+		add_action( 'init', array( $this, 'init' ) );
+
+		// Register widgets.
+		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+
+	}
+
+	/**
+	 * Initialize page templates
+	 *
+	 * @since 0.1.0
+	 * @return void
+	 */
+	private function register_templates() {
 
 		// Register page templates.
-		// $this->register_templates();
-
-		// add_action( 'init', array( $this, 'init' ) );
+		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-pagetemplate.php';
+		$landing = new \WordPress_Plugin\PageTemplate( WORDPRESS_PLUGIN_TEMPLATE_PATH, 'page-template.php', 'Landing Page' );
+		$landing->register();
 
 	}
 
@@ -66,54 +79,40 @@ class WordPress_Plugin {
 	 * Init action hook
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return void
 	 */
 	public static function init() {
 
-		$this->register_post_types();
+		$this->register_shortcodes();
 
 	}
 
 	/**
-	 * Initialize page templates
+	 * Register shortcodes.
 	 *
-	 * @since 1.0.0
+	 * @since 1.0.2
+	 *
 	 * @return void
 	 */
-	private function register_templates() {
+	public static function register_shortcodes(){
 
-		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-pagetemplate.php';
-		$home = new \WordPress_Plugin\PageTemplate( WORDPRESS_PLUGIN_TEMPLATE_PATH, 'home.php', 'Home' );
-		$home->register();
+		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-shortcode.php';
+		new \WordPress_Plugin\Shortcode();
 
 	}
 
 	/**
-	 * Initialize the various classes
+	 * Register widgets
 	 *
-	 * @since 1.0.0
+	 * @since 1.0.2
 	 * @return void
 	 */
-	private function require_classes() {
+	public function register_widgets() {
 
-		// Add assets.
-		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-assets.php';
-		new \WordPress_Plugin\Assets();
-
-	}
-
-	/**
-	 * Initialize custom post types
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function register_post_types() {
-
-		$publication_post_type = $this->publication_post_type;
-		// error_log( gettype( $publication_post_type ) );
-		// error_log( gettype( $publication_post_type->register_post_types ) );
-		// $publication_post_type->register_post_types();
+		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-widget.php';
+		$widget = new \WordPress_Plugin\Plugin_Name_Widget();
+		register_widget( $widget );
 
 	}
 

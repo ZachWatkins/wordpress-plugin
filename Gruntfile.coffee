@@ -15,8 +15,9 @@ module.exports = (grunt) ->
           ]
           failOnError: true
         files:
-          'css/styles.css':      'css/styles.css'
-          'css/publication.css': 'css/publication.css'
+          'css/styles.css':        'css/styles.css'
+          'css/page-template.css': 'css/page-template.css'
+          'css/publication.css':   'css/publication.css'
       dev:
         options:
           map: true
@@ -25,8 +26,9 @@ module.exports = (grunt) ->
           ]
           failOnError: true
         files:
-          'css/styles.css':      'css/styles.css'
-          'css/publication.css': 'css/publication.css'
+          'css/styles.css':        'css/styles.css'
+          'css/page-template.css': 'css/page-template.css'
+          'css/publication.css':   'css/publication.css'
     sass:
       pkg:
         options:
@@ -36,8 +38,9 @@ module.exports = (grunt) ->
           precision: 2
           includePaths: ['node_modules/foundation-sites/scss']
         files:
-          'css/styles.css':      'css/src/styles.scss'
-          'css/publication.css': 'css/src/publication.scss'
+          'css/styles.css':        'css/src/styles.scss'
+          'css/page-template.css': 'css/src/page-template.scss'
+          'css/publication.css':   'css/src/publication.scss'
       dev:
         options:
           implementation: sass
@@ -46,8 +49,9 @@ module.exports = (grunt) ->
           precision: 2
           includePaths: ['node_modules/foundation-sites/scss']
         files:
-          'css/styles.css': 'css/src/styles.scss'
-          'css/publication.css': 'css/src/publication.scss'
+          'css/styles.css':        'css/src/styles.scss'
+          'css/page-template.css': 'css/src/page-template.scss'
+          'css/publication.css':   'css/src/publication.scss'
     sasslint:
       options:
         configFile: '.sass-lint.yml'

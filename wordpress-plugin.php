@@ -69,14 +69,6 @@ function wordpress_plugin_activation() {
 
     update_option( 'wordpress_plugin_permalinks_flushed', 0);
 
-		// Register post types and flush rewrite rules.
-		// global $wordpress_plugin_ns;
-		// // error_log( gettype( $wordpress_plugin_ns ) );
-		// error_log( print_r( $wordpress_plugin_ns, true ) );
-		// error_log( gettype( $wordpress_plugin_ns->register_post_types ) );
-		// add_action( 'init', array( $wordpress_plugin_ns, 'register_post_types' );
-		// flush_rewrite_rules();
-
 	}
 
 }

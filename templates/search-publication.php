@@ -7,7 +7,37 @@
 * @since 1.0.0
 */
 
-add_filter( 'get_search_form', function( $form, $args ){
+/**
+ * If selected taxonomies are an array, add selected property elements.
+ *
+ * @since 1.0.0
+ *
+ * @param string $output      HTML output.
+ * @param array  $parsed_args Arguments used to build the drop-down.
+ */
+function wpp_multi_select_atts ( $output, $parsed_args ) {
+
+	$taxonomy_slug = $parsed_args['name'];
+	$selected = get_query_var( $taxonomy_slug, null );
+	if ( is_array( $selected ) ) {
+		foreach ($selected as $taxonomy) {
+			$output = str_replace( "value=\"$taxonomy\"", "selected=\"selected\" value=\"$taxonomy\"", $output );
+		}
+	}
+	return $output;
+
+}
+add_filter( 'wp_dropdown_cats', 'wpp_multi_select_atts', 11, 2);
+
+/**
+ * Filters the HTML output of the search form.
+ *
+ * @since 1.0.0
+ *
+ * @param string $form The search form HTML output.
+ * @param array  $args The array of arguments for building the search form.
+ */
+function wpp_add_search_filters ( $form, $args ) {
 
 	if ( 'publication' === $args['aria_label'] ) {
 
@@ -15,17 +45,16 @@ add_filter( 'get_search_form', function( $form, $args ){
 		$search_filters  = array(
 			'post-type' => "<input type=\"hidden\" value=\"publication\" name=\"post_type\" id=\"post_type\" />",
 		);
-		$author_dropdown = wp_dropdown_pages(
-			array(
-				'echo'        => 0,
-				'post_type'   => 'pubauthor',
-				'name'        => 'pubauthor',
-				'value_field' => 'post_name',
-				'class'       => 'postform',
-				'multiple'    => true,
-				'selected'    => esc_attr( get_query_var( 'pubauthor', null ) ),
-			)
+		$args = array(
+			'echo'        => 0,
+			'post_type'   => 'pubauthor',
+			'name'        => 'pubauthor',
+			'value_field' => 'post_name',
+			'class'       => 'postform',
+			'multiple'    => true,
+			'selected'    => esc_attr( get_query_var( 'pubauthor', null ) ),
 		);
+		$author_dropdown = wp_dropdown_pages( $args );
 
 		// Author filter.
 		if ( ! empty( $author_dropdown ) ) {
@@ -44,18 +73,24 @@ add_filter( 'get_search_form', function( $form, $args ){
 
 			if ( is_array( $terms ) && ! empty( $terms ) ) {
 
-				$dropdown = wp_dropdown_categories(
-					array(
-						'echo'        => 0,
-						'id'          => "taxonomy-{$taxonomy->name}",
-						'taxonomy'    => $key,
-						'name'        => $key,
-						'value_field' => 'slug',
-						'orderby'     => 'name',
-						'multiple'    => true,
-						'selected'    => get_query_var( $key, null ),
-					)
+				// Show dropdown with values selected if present in URL parameter.
+				$args = array(
+					'echo'        => 0,
+					'id'          => "taxonomy-{$taxonomy->name}",
+					'taxonomy'    => $key,
+					'name'        => $key,
+					'value_field' => 'slug',
+					'orderby'     => 'name',
+					'multiple'    => true,
 				);
+
+				// If the taxonomy URL parameter value is not an array then we can set it here.
+				// Otherwise, we must set it with a filter function.
+				$selected_query_tax = get_query_var( $key, null );
+				if ( ! is_array( $selected_query_tax ) ) {
+					$args['selected'] = $selected_query_tax;
+				}
+				$dropdown = wp_dropdown_categories( $args );
 
 				$search_filters[ $key ]  = sprintf(
 					'<div class="filter"><label for="taxonomy-%s" class="taxonomy-label">%s</label>%s</div>',
@@ -79,7 +114,8 @@ add_filter( 'get_search_form', function( $form, $args ){
 
 	return $form;
 
-}, 11, 2);
+}
+add_filter( 'get_search_form', 'wpp_add_search_filters', 11, 2);
 
 ?>
 <h3>Search Publications</h3>
