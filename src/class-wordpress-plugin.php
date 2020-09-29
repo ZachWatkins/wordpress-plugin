@@ -91,7 +91,7 @@ class WordPress_Plugin {
 	/**
 	 * Register shortcodes.
 	 *
-	 * @since 1.0.2
+	 * @since 1.0.1
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class WordPress_Plugin {
 	/**
 	 * Register widgets
 	 *
-	 * @since 1.0.2
+	 * @since 1.0.1
 	 * @return void
 	 */
 	public function register_widgets() {
