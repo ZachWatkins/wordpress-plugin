@@ -75,7 +75,7 @@ class Publication_Post_Type {
 
 		// Add post meta after post title.
 		$theme = wp_get_theme();
-		if ( 'Genesis' === $theme || 'Genesis' === $theme->parent() ) {
+		if ( 'Genesis' === $theme->name || 'Genesis' === $theme->parent()->name ) {
 			add_filter( 'genesis_post_info', array( $this, 'post_info' ), 12 );
 		} else {
 			add_filter( 'the_title', array( $this, 'post_info' ), 12 );
@@ -548,7 +548,13 @@ class Publication_Post_Type {
 			}
 
 			if ( ! empty( $post_meta_out ) ) {
-				$title .= "<p class=\"entry-meta\">{$post_meta_out}</p>";
+				// Theme-dependent output based on what hook is generating the content.
+				$theme = wp_get_theme();
+				if ( 'Genesis' === $theme->name || 'Genesis' === $theme->parent()->name ) {
+					$title = $post_meta_out;
+				} else {
+					$title .= "<p class=\"entry-meta\">{$post_meta_out}</p>";
+				}
 			}
 
 		}
