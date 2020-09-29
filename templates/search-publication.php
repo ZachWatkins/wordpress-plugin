@@ -42,13 +42,12 @@ add_filter( 'get_search_form', function( $form, $args ){
 
 			$terms = get_terms( array( 'taxonomy' => $key ) );
 
-			if ( is_array( $terms ) && 0 < count( $terms ) ) {
+			if ( is_array( $terms ) && ! empty( $terms ) ) {
 
-				$search_filters[ $key ]  = '<div class="filter">';
-				$search_filters[ $key ] .= "<label for=\"{$taxonomy->name}\" class=\"taxonomy-label\">{$taxonomy->label}</label>";
-				$search_filters[ $key ] .= wp_dropdown_categories(
+				$dropdown = wp_dropdown_categories(
 					array(
 						'echo'        => 0,
+						'id'          => "taxonomy-{$taxonomy->name}",
 						'taxonomy'    => $key,
 						'name'        => $key,
 						'value_field' => 'slug',
@@ -57,16 +56,22 @@ add_filter( 'get_search_form', function( $form, $args ){
 						'selected'    => get_query_var( $key, null ),
 					)
 				);
-				$search_filters[ $key ] .= '</div>';
+
+				$search_filters[ $key ]  = sprintf(
+					'<div class="filter"><label for="taxonomy-%s" class="taxonomy-label">%s</label>%s</div>',
+					$taxonomy->name,
+					$taxonomy->label,
+					$dropdown
+				);
 
 			}
 
 		}
 
-		$content = implode( '', $search_filters );
+		$taxonomy_filters = implode( '', $search_filters );
 		preg_match( '/^<form[^>]*>(.*)<\/form>$/', $form, $matches );
 		// Add search filters.
-		$form = str_replace( $matches[1], $content . $matches[1], $form );
+		$form = str_replace( $matches[1], $taxonomy_filters . $matches[1], $form );
 		// Update search button text.
 		$form = str_replace( 'value="Search"', 'value="Search Publications"', $form );
 
@@ -78,16 +83,4 @@ add_filter( 'get_search_form', function( $form, $args ){
 
 ?>
 <h3>Search Publications</h3>
-<div class="epub-search-form">
-	<?php
-		get_search_form(
-			array(
-				'aria_label' => 'publication'
-			)
-		);
-	?>
-	<!-- <form class="search-form" method="get" action="<?php ?>https://epubs.agrilifelearn.tamu.edu/" role="search" itemprop="potentialAction" itemscope="" itemtype="https://schema.org/SearchAction"> -->
-		<!-- <meta content="https://epubs.agrilifelearn.tamu.edu/?s={s}" itemprop="target"> -->
-	<!-- </form> -->
-	<hr>
-</div>
+<div class="epub-search-form"><?php get_search_form( array( 'aria_label' => 'publication' ) ); ?><hr></div>
