@@ -143,7 +143,7 @@ class Taxonomy {
 		if ( ! is_array( $post_slug ) ) {
 			add_filter( "manage_edit-{$post_slug}_sortable_columns", array( $this, 'register_sortable_columns' ) );
 		} else {
-			foreach ($post_slug as $slug) {
+			foreach ( $post_slug as $slug ) {
 				add_filter( "manage_edit-{$slug}_sortable_columns", array( $this, 'register_sortable_columns' ) );
 			}
 		}

@@ -1,11 +1,11 @@
 <?php
 /**
-* Template Name: Search Publication
-*
-* @package WordPress_Plugin
-* @subpackage wordpress-plugin/templates
-* @since 1.0.0
-*/
+ * Template Name: Search Publication
+ *
+ * @package WordPress_Plugin
+ * @subpackage wordpress-plugin/templates
+ * @since 1.0.0
+ */
 
 /**
  * If selected taxonomies are an array, add selected property elements.
@@ -15,19 +15,19 @@
  * @param string $output      HTML output.
  * @param array  $parsed_args Arguments used to build the drop-down.
  */
-function wpp_multi_select_atts ( $output, $parsed_args ) {
+function wpp_multi_select_atts( $output, $parsed_args ) {
 
 	$taxonomy_slug = $parsed_args['name'];
-	$selected = get_query_var( $taxonomy_slug, null );
+	$selected      = get_query_var( $taxonomy_slug, null );
 	if ( is_array( $selected ) ) {
-		foreach ($selected as $taxonomy) {
+		foreach ( $selected as $taxonomy ) {
 			$output = str_replace( "value=\"$taxonomy\"", "selected=\"selected\" value=\"$taxonomy\"", $output );
 		}
 	}
 	return $output;
 
 }
-add_filter( 'wp_dropdown_cats', 'wpp_multi_select_atts', 11, 2);
+add_filter( 'wp_dropdown_cats', 'wpp_multi_select_atts', 11, 2 );
 
 /**
  * Filters the HTML output of the search form.
@@ -37,24 +37,25 @@ add_filter( 'wp_dropdown_cats', 'wpp_multi_select_atts', 11, 2);
  * @param string $form The search form HTML output.
  * @param array  $args The array of arguments for building the search form.
  */
-function wpp_add_search_filters ( $form, $args ) {
+function wpp_add_search_filters( $form, $args ) {
 
 	if ( 'publication' === $args['aria_label'] ) {
 
 		$taxonomies      = get_object_taxonomies( 'publication', 'objects' );
 		$search_filters  = array(
-			'post-type' => "<input type=\"hidden\" value=\"publication\" name=\"post_type\" id=\"post_type\" />",
+			'post-type' => '<input type="hidden" value="publication" name="post_type" id="post_type" />',
 		);
-		$args = array(
-			'echo'        => 0,
-			'post_type'   => 'pubauthor',
-			'name'        => 'pubauthor',
-			'value_field' => 'post_name',
-			'class'       => 'postform',
-			'multiple'    => true,
-			'selected'    => esc_attr( get_query_var( 'pubauthor', null ) ),
+		$author_dropdown = wp_dropdown_pages(
+			array(
+				'echo'        => 0,
+				'post_type'   => 'pubauthor',
+				'name'        => 'pubauthor',
+				'value_field' => 'post_name',
+				'class'       => 'postform',
+				'multiple'    => true,
+				'selected'    => esc_attr( get_query_var( 'pubauthor', null ) ),
+			)
 		);
-		$author_dropdown = wp_dropdown_pages( $args );
 
 		// Author filter.
 		if ( ! empty( $author_dropdown ) ) {
@@ -92,7 +93,7 @@ function wpp_add_search_filters ( $form, $args ) {
 				}
 				$dropdown = wp_dropdown_categories( $args );
 
-				$search_filters[ $key ]  = sprintf(
+				$search_filters[ $key ] = sprintf(
 					'<div class="filter"><label for="taxonomy-%s" class="taxonomy-label">%s</label>%s</div>',
 					$taxonomy->name,
 					$taxonomy->label,
@@ -100,7 +101,6 @@ function wpp_add_search_filters ( $form, $args ) {
 				);
 
 			}
-
 		}
 
 		$taxonomy_filters = implode( '', $search_filters );
@@ -115,7 +115,7 @@ function wpp_add_search_filters ( $form, $args ) {
 	return $form;
 
 }
-add_filter( 'get_search_form', 'wpp_add_search_filters', 11, 2);
+add_filter( 'get_search_form', 'wpp_add_search_filters', 11, 2 );
 
 ?>
 <h3>Search Publications</h3>

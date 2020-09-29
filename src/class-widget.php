@@ -16,7 +16,7 @@ namespace WordPress_Plugin;
  * @since 1.0.0
  * @return void
  */
-class Plugin_Name_Widget extends \WP_Widget {
+class Widget extends \WP_Widget {
 
 	/**
 	 * Default instance.
@@ -79,17 +79,15 @@ class Plugin_Name_Widget extends \WP_Widget {
 		$before       = array_key_exists( 'before_widget', $args ) ? $args['before_widget'] : '';
 		$after        = array_key_exists( 'after_widget', $args ) ? $args['after_widget'] : '';
 		$title        = array_key_exists( 'title', $instance ) ? $instance['title'] : '';
-		$content      = $instance['content'];
-
-		$output = sprintf(
-			'%s%s<div class="textwidget custom-html-widget">%s</div>%s',
-			wp_kses_post( $before ),
-			wp_kses_post( $title ),
-			wp_kses( $instance['content'], $allowed_html ),
-			wp_kses_post( $after )
+		$content      = sprintf(
+			'<div class="textwidget custom-html-widget">%s</div>',
+			$instance['content']
 		);
 
-		echo $output;
+		echo wp_kses_post( $before );
+		echo wp_kses_post( $title );
+		echo wp_kses( $content, $allowed_html );
+		echo wp_kses_post( $after );
 
 	}
 

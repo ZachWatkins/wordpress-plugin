@@ -226,12 +226,12 @@ class Publication_Post_Type {
 			)
 		);
 
-    if( ! get_option( 'wordpress_plugin_permalinks_flushed' ) ) {
+		if ( ! get_option( 'wordpress_plugin_permalinks_flushed' ) ) {
 
-      flush_rewrite_rules( false );
-      update_option( 'wordpress_plugin_permalinks_flushed', 1 );
+			flush_rewrite_rules( false );
+			update_option( 'wordpress_plugin_permalinks_flushed', 1 );
 
-    }
+		}
 
 	}
 
@@ -327,9 +327,9 @@ class Publication_Post_Type {
 			}
 
 			// Allow publication authors to be searchable in a URL.
-			if ( isset( $query->query_vars[$this->author_post_slug] ) ) {
+			if ( isset( $query->query_vars[ $this->author_post_slug ] ) ) {
 
-				$slugs      = $query->query_vars[$this->author_post_slug];
+				$slugs      = $query->query_vars[ $this->author_post_slug ];
 				$meta_query = $query->get( 'meta_query' );
 
 				if ( empty( $meta_query ) ) {
@@ -441,7 +441,6 @@ class Publication_Post_Type {
 				if ( ! empty( $tcategories ) ) {
 					$post_meta_out .= $tcat_out;
 				}
-
 			} else {
 
 				$revision_records = get_field( 'revision_recs' );
@@ -469,8 +468,8 @@ class Publication_Post_Type {
 						$revision_order[ $i ] = $row['datetime'];
 					}
 					array_multisort( $revision_order, SORT_ASC, $revision_records );
-					$last_revision  = end( $revision_records );
-					$last_rev_time  = strtotime( $last_revision['datetime'] );
+					$last_revision = end( $revision_records );
+					$last_rev_time = strtotime( $last_revision['datetime'] );
 
 					if ( ! empty( $post_date ) ) {
 						$post_meta_out .= ' <br>';
@@ -544,7 +543,6 @@ class Publication_Post_Type {
 					);
 
 				}
-
 			}
 
 			if ( ! empty( $post_meta_out ) ) {
@@ -556,7 +554,6 @@ class Publication_Post_Type {
 					$title .= "<p class=\"entry-meta\">{$post_meta_out}</p>";
 				}
 			}
-
 		}
 
 		return $title;

@@ -95,7 +95,7 @@ class WordPress_Plugin {
 	 *
 	 * @return void
 	 */
-	public static function register_shortcodes(){
+	public static function register_shortcodes() {
 
 		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-shortcode.php';
 		new \WordPress_Plugin\Shortcode();
@@ -111,7 +111,7 @@ class WordPress_Plugin {
 	public function register_widgets() {
 
 		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-widget.php';
-		$widget = new \WordPress_Plugin\Plugin_Name_Widget();
+		$widget = new \WordPress_Plugin\Widget();
 		register_widget( $widget );
 
 	}

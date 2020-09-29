@@ -17,11 +17,14 @@ if ( 'Genesis' === $theme->name || 'Genesis' === $theme->parent()->name ) {
 
 } else {
 
-	?><div id="primary" class="content-area"><main id="main" class="site-main"><?php
+	?><div id="primary" class="content-area"><main id="main" class="site-main">
+	<?php
 
 		the_content();
 
-	?></main></div><?php
+	?>
+	</main></div>
+	<?php
 
 }
 

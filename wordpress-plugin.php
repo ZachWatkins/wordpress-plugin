@@ -20,7 +20,7 @@
  */
 
 // If this file is called directly, abort.
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
 }
 
@@ -67,7 +67,7 @@ function wordpress_plugin_activation() {
 
 	} else {
 
-    update_option( 'wordpress_plugin_permalinks_flushed', 0);
+		update_option( 'wordpress_plugin_permalinks_flushed', 0 );
 
 	}
 
