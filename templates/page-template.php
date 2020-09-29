@@ -38,9 +38,9 @@ function wordpress_plugin_landing_styles() {
 
 	wp_register_style(
 		'wordpress-plugin-template-landing',
-		WORDPRESS_PLUGIN_DIR_URL . 'css/landing.css',
+		WORDPRESS_PLUGIN_DIR_URL . 'css/page-template.css',
 		false,
-		filemtime( WORDPRESS_PLUGIN_DIR_PATH . 'css/landing.css' ),
+		filemtime( WORDPRESS_PLUGIN_DIR_PATH . 'css/page-template.css' ),
 		'screen'
 	);
 
