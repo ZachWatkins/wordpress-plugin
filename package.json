@@ -1,6 +1,6 @@
 {
   "name": "wordpress-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A boilerplate plugin for WordPress Websites.",
   "main": "wordpress-plugin-slug.php",
   "scripts": {
