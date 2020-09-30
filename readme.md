@@ -12,6 +12,7 @@ You may repurpose code from this repository for your own WordPress development s
 
 ## Features
 
+* Settings page
 * Shortcode
 * Widget
 * Custom post types using Advanced Custom Fields and various features and enhancements I've developed for custom post types and taxonomies
@@ -30,6 +31,11 @@ When you stage changes to this repository and initiate a commit, they must pass 
 ### Post Type Development Notes
 1. Post type registration should always occur on the `init` action hook.
 2. Post type content should use hooks or template parts instead of full template files, to maintain compatibility between themes.
+
+### Admin Settings Page Notes
+`add_options_page` puts a menu/link in the “Settings” menu
+`add_menu_page` puts a menu/link at the same level as “Dashboard”, “Posts”, “Media”, etc.
+`add_submenu_page` puts a menu/link as a child underneath “Dashboard”, “Posts”, “Media”, etc.
 
 ## Development Tasks
 

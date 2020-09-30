@@ -45,6 +45,43 @@ class WordPress_Plugin {
 		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-assets.php';
 		new \WordPress_Plugin\Assets();
 
+		// Register settings page.
+		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-settings-page.php';
+		$page_args      = array(
+			'method'    => 'add_options_page',
+			'title'     => 'My Settings',
+			'slug'      => 'plugin-name-settings',
+			'opt_group' => 'my_option_group',
+			'opt_name'  => 'my_option_name',
+		);
+		$method_args    = array(
+			'page_title' => 'Plugin Name',
+			'menu_title' => 'Plugin Name',
+			'capability' => 'manage_options',
+			'menu_slug'  => 'plugin-name-settings',
+			'icon_url'   => 'dashicons-portfolio',
+			'position'   => 0,
+		);
+		$field_sections = array(
+			'setting_section_id' => array(
+				'title'  => 'My Custom Settings',
+				'desc'   => 'Enter your settings below:',
+				'fields' => array(
+					array(
+						'id'    => 'id_number',
+						'title' => 'ID Number',
+						'type'  => 'int',
+					),
+					array(
+						'id'    => 'title',
+						'title' => 'Title',
+						'type'  => 'text',
+					),
+				),
+			),
+		);
+		new \WordPress_Plugin\Settings_Page( $page_args, $method_args, $field_sections );
+
 		// Register post types.
 		require_once WORDPRESS_PLUGIN_DIR_PATH . 'src/class-publication-post-type.php';
 		new \WordPress_Plugin\Publication_Post_Type();
